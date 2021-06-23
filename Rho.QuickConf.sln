@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rho.QuickConf", "Rho.QuickConf\Rho.QuickConf.csproj", "{A1631A2A-077C-4109-9B18-D98B8439ABF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rho.QuickConf.Tests", "Rho.QuickConf.Tests\Rho.QuickConf.Tests.csproj", "{57D26A5B-B436-4786-8D15-0EA16CB6283E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1631A2A-077C-4109-9B18-D98B8439ABF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1631A2A-077C-4109-9B18-D98B8439ABF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1631A2A-077C-4109-9B18-D98B8439ABF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1631A2A-077C-4109-9B18-D98B8439ABF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D26A5B-B436-4786-8D15-0EA16CB6283E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D26A5B-B436-4786-8D15-0EA16CB6283E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D26A5B-B436-4786-8D15-0EA16CB6283E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D26A5B-B436-4786-8D15-0EA16CB6283E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F89F2BB3-4296-4B56-885D-FDB65E5DA1A4}
+	EndGlobalSection
+EndGlobal
