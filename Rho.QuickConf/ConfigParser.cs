@@ -19,7 +19,7 @@ namespace Rho.QuickConf
         public static string ReadValueName(string line) =>
             line.Split('=', 2)[0];
 
-        public static Dictionary<string, Dictionary<string, object>> ReadRawConfigFile(string fileName)
+        public static Dictionary<string, Dictionary<string, object>> ReadRawConfigData(string[] data)
         {
             Dictionary<string, Dictionary<string, object>> config =
                 new Dictionary<string, Dictionary<string, object>>()
@@ -28,8 +28,7 @@ namespace Rho.QuickConf
                 };
 
             int cursor;
-            string currentGroup = string.Empty;
-            string[] data = File.ReadAllLines(fileName);
+            string currentGroup = string.Empty;            
 
             for (cursor = 0; cursor < data.Length; cursor++)
             {
@@ -55,5 +54,7 @@ namespace Rho.QuickConf
 
             return config;
         }
+        public static Dictionary<string, Dictionary<string, object>> ReadRawConfigFile(string fileName) =>
+            ReadRawConfigData(File.ReadAllLines(fileName));
     }
 }
