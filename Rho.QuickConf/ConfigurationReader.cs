@@ -40,9 +40,8 @@ namespace Rho.QuickConf
             string setFileName = GetFileNameFromConfigurationObject(configurationObject);
             fileName = setFileName != string.Empty ? setFileName : fileName;
 
-            // Parser prep
-            int cursor = 0;
-            string[] data = File.ReadAllLines(fileName);
+            // Parse it first
+            var config = ConfigParser.ReadRawConfigFile(fileName);
 
             // List out fields that need to be checked and shit
             List<ConfigurationField> fields = new List<ConfigurationField>();
@@ -50,47 +49,14 @@ namespace Rho.QuickConf
             {
                 var fieldAttribute = ExtractFieldAttribute(field);
 
-                if (!(field is null))
-                    if (!(fieldAttribute is null))
-                    {
-                        // Error out if field is read only
-                        if (field.IsInitOnly || field.IsLiteral)
-                            throw new AccessViolationException($"{field.Name} is a read-only field!");
-
-                        if (fieldAttribute.Group == string.Empty)
-                        {
-                            IEnumerable<string> value = from line in data where line.StartsWith(fieldAttribute.Name) select line;
-                            // Error out if there is more than one value
-                            if (value.Count() > 1)
-                                throw new MemberAccessException($"More than one value with the name {fieldAttribute.Name} outside of any group");
-
-                            field.SetValue(configurationObject, value.FirstOrDefault());
-                        }
-                        else
-                        {
-                            IEnumerable<string> group = from line in data where line == $"[{fieldAttribute.Group}]" select line;
-
-                            if (group.Count() > 1)
-                                throw new MemberAccessException($"There are more than one groups with {fieldAttribute.Group} on the file {fileName}");
-
-                            cursor = Array.IndexOf(data, group.FirstOrDefault());
-
-                            while (true)
-                            {
-                                cursor++;
-
-                                if (LineParser.ReadValueName(data[cursor]) == fieldAttribute.Name)
-                                {
-                                    field.SetValue(configurationObject, group.FirstOrDefault());
-                                    field.SetValue(configurationObject, LineParser.ReadValue(data[cursor]));
-                                    break;
-                                }
-
-                                if (cursor > data.Length)
-                                    throw new Exception($"There is no value named {fieldAttribute.Name} in group {fieldAttribute.Group}");
-                            }
-                        }
-                    }
+                if (field.IsInitOnly)
+                    throw new MemberAccessException($"Field {fieldAttribute.Name} is read-only.");
+                
+                if (!(fieldAttribute is null))
+                {
+                    object value = config[fieldAttribute.Group][fieldAttribute.Name];
+                    field.SetValue(configurationObject, value);
+                }
             }
         }
     }

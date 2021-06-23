@@ -11,6 +11,8 @@ namespace Rho.QuickConf.Tests
         public string FirstValue;
 
         [ConfigurationField("Group A", "Value1")]
-        public string Value1;
+        public string value1;
+
+        public string Value1 => value1;
     }
 }
