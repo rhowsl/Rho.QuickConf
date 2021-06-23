@@ -19,13 +19,13 @@ namespace Rho.QuickConf
             return null;
         }
 
-        private static Field ExtractFieldAttribute(FieldInfo fieldMember)
+        private static ConfigurationField ExtractFieldAttribute(FieldInfo fieldMember)
         {
-            var attribute = fieldMember.GetCustomAttribute(typeof(Field));
+            var attribute = fieldMember.GetCustomAttribute(typeof(ConfigurationField));
             if (!(attribute is null))
             {
-                var fieldAttribute = attribute as Field;
-                return new Field()
+                var fieldAttribute = attribute as ConfigurationField;
+                return new ConfigurationField()
                 {
                     Group = fieldAttribute.Group,
                     Name = (fieldAttribute.Name != string.Empty) ? fieldAttribute.Name : fieldMember.GetType().Name
@@ -45,7 +45,7 @@ namespace Rho.QuickConf
             string[] data = File.ReadAllLines(fileName);
 
             // List out fields that need to be checked and shit
-            List<Field> fields = new List<Field>();
+            List<ConfigurationField> fields = new List<ConfigurationField>();
             foreach (var field in configurationObject.GetType().GetFields())
             {
                 var fieldAttribute = ExtractFieldAttribute(field);
@@ -79,10 +79,10 @@ namespace Rho.QuickConf
                             {
                                 cursor++;
 
-                                if (Parser.GetValueName(data[cursor]) == fieldAttribute.Name)
+                                if (LineParser.ReadValueName(data[cursor]) == fieldAttribute.Name)
                                 {
                                     field.SetValue(configurationObject, group.FirstOrDefault());
-                                    field.SetValue(configurationObject, Parser.GetValue(data[cursor]));
+                                    field.SetValue(configurationObject, LineParser.ReadValue(data[cursor]));
                                     break;
                                 }
 

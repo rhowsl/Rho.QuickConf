@@ -7,7 +7,7 @@ namespace Rho.QuickConf.Tests
     [ConfigurationFile("Test.conf")]
     public class TestCfg
     {
-        [Field("Group A", "Value1")]
+        [ConfigurationField("Group A", "Value1")]
         public readonly string Fuck;
     }
 }
