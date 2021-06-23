@@ -6,18 +6,7 @@ using System.Reflection;
 
 namespace Rho.QuickConf
 {
-    static class Parser
-    {
-        public static bool IsComment(string line) =>
-            line.StartsWith("#");
-        public static bool IsGroup(string line) =>
-            line.StartsWith("[") && line.EndsWith("]");
-        public static string GetValue(string line) =>
-            line.Split('=', 2)[1];
-        public static string GetValueName(string line) =>
-            line.Split('=', 2)[0];
-    }
-    public static class Configuration
+    public static class ConfigurationReader
     {
         private static string GetFileNameFromConfigurationObject(object configurationObject)
         {
@@ -103,30 +92,6 @@ namespace Rho.QuickConf
                         }
                     }
             }
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class ConfigurationFile : Attribute
-    {
-        public readonly string SetFileName;
-
-        public ConfigurationFile(string setFileName)
-        {
-            SetFileName = setFileName;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Field)]
-    public class Field : Attribute
-    {
-        public string Group { get; set; }
-        public string Name { get; set; }
-
-        public Field(string group = "", string name = "")
-        {
-            Group = group;
-            Name = name;
         }
     }
 }
