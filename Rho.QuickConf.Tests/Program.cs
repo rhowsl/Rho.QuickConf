@@ -9,7 +9,7 @@ namespace Rho.QuickConf.Tests
             TestCfg t = new TestCfg();
             ConfigurationReader.ParseInto(t);
 
-            Console.WriteLine($"value of fuck is {t.Fuck}");
+            Console.WriteLine($"value1 is {t.Value1}");
         }
     }
 }
