@@ -77,4 +77,5 @@ namespace Whatchamacallit
 
 ## Todo
 
-- everything 
+- Type conversion
+- Compliance?
