@@ -16,12 +16,12 @@ namespace Rho.QuickConf
     }
 
     [AttributeUsage(AttributeTargets.Field)]
-    public class ConfigurationField : Attribute
+    public class ConfigurationFieldAttribute : Attribute
     {
         public string Group { get; set; }
         public string Name { get; set; }
 
-        public ConfigurationField(string group = "", string name = "")
+        public ConfigurationFieldAttribute(string group = "", string name = "")
         {
             Group = group;
             Name = name;

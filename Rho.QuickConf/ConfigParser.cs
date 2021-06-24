@@ -56,5 +56,26 @@ namespace Rho.QuickConf
         }
         public static Dictionary<string, Dictionary<string, object>> ReadRawConfigFile(string fileName) =>
             ReadRawConfigData(File.ReadAllLines(fileName));
+
+        public static string[] WriteRawConfigData(Dictionary<string, Dictionary<string, object>> configData)
+        {
+            List<string> output = new List<string>();
+
+            foreach (var group in configData)
+            {
+                output.Add($"[{group.Key}]");
+
+                foreach (var setting in group.Value)
+                {
+                    output.Add($"{setting.Key}={setting.Value}");
+                }
+
+                output.Add("");
+            }
+
+            if (output[0] == "[]") output.RemoveAt(0);
+
+            return output.ToArray();
+        }
     }
 }
