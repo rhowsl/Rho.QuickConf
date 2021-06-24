@@ -8,10 +8,14 @@ namespace Rho.QuickConf.Tests
         static void Main(string[] args)
         {
             TestCfg t = new TestCfg();
-            ConfigurationSerializer.DeserializeInto(t, File.ReadAllLines("Test.conf"));
+            ConfigurationReader.DeserializeInto(t, File.ReadAllLines("Test.conf"));
 
             Console.WriteLine($"{t.va_1}");
             Console.WriteLine($"{t.vn_1}");
+            Console.WriteLine();
+
+            var w = ConfigurationWriter.SerializeFrom(t);
+            foreach (var line in w) Console.WriteLine(line);
         }
     }
 }

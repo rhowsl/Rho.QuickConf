@@ -23,6 +23,7 @@ namespace Rho.QuickConf
                 if (!groupsValuesPairs.ContainsKey(attribute.Group))
                 {
                     groupsValuesPairs.Add(attribute.Group, new Dictionary<string, object>());
+                    groupsValuesPairs[attribute.Group].Add(attribute.Name, field.GetValue(configurationObject));
                 }
                 else
                 {

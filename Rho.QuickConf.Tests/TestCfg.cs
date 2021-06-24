@@ -1,5 +1,9 @@
-﻿namespace Rho.QuickConf.Tests
+﻿using System;
+
+namespace Rho.QuickConf.Tests
 {
+    [ConfigurationFile]
+    [Serializable]
     public class TestCfg
     {
         [ConfigurationField("", "Value1")]
