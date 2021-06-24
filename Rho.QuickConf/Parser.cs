@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Rho.QuickConf
 {
-    static class ConfigParser
+    internal static class Parser
     {
         private static string RemoveTrailing(this string str) =>
             str.TrimStart().TrimEnd();
