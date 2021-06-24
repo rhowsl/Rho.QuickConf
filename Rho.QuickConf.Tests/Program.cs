@@ -7,15 +7,11 @@ namespace Rho.QuickConf.Tests
     {
         static void Main(string[] args)
         {
-            TestCfg t = new TestCfg();
+            Configuration t = new Configuration();
             ConfigurationReader.DeserializeInto(t, File.ReadAllLines("Test.conf"));
 
-            Console.WriteLine($"{t.Value1A}");
-            Console.WriteLine($"{t.Value1N}");
-            Console.WriteLine();
-
             var w = ConfigurationWriter.SerializeFrom(t);
-            foreach (var line in w) Console.WriteLine(line);
+            foreach (var line in w) Console.WriteLine(line);            
         }
     }
 }

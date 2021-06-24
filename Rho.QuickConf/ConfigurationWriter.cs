@@ -6,6 +6,11 @@ namespace Rho.QuickConf
 {
     public static class ConfigurationWriter
     {
+        /// <summary>
+        /// Serializes an object with marked fields back into a multi-line string with config data
+        /// </summary>
+        /// <param name="configurationObject"></param>
+        /// <returns></returns>
         public static string[] SerializeFrom(object configurationObject)
         {
             if (!Utils.IsSerialiable(configurationObject))

@@ -7,6 +7,11 @@ namespace Rho.QuickConf
 {
     public static class ConfigurationReader
     {
+        /// <summary>
+        /// Deserializes configuration data into an object with marked fields.
+        /// </summary>
+        /// <param name="configurationObject"></param>
+        /// <param name="data">ini data (multi-line string)</param>
         public static void DeserializeInto(object configurationObject, string[] data)
         {
             if (!Utils.IsConfigurationClass(configurationObject))
