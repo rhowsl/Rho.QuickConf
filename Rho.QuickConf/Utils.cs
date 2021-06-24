@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -12,7 +10,7 @@ namespace Rho.QuickConf
             => !(obj.GetType().GetCustomAttribute<SerializableAttribute>() is null);
 
         public static FieldInfo[] GetAllConfigurationFields(object obj) =>
-            obj.GetType().GetFields().Where(f => !(f.GetCustomAttribute<ConfigurationFieldAttribute>() is null)).ToArray();
+            obj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(f => !(f.GetCustomAttribute<ConfigurationFieldAttribute>() is null)).ToArray();
 
         public static bool IsConfigurationClass(object configurationObject)
             => !(configurationObject.GetType().GetCustomAttribute(typeof(ConfigurationFileAttribute)) is null);

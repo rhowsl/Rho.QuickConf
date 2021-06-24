@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Rho.QuickConf
@@ -15,7 +16,7 @@ namespace Rho.QuickConf
             var config = Parser.ReadRawConfigData(data);
 
             List<ConfigurationFieldAttribute> fields = new List<ConfigurationFieldAttribute>();
-            foreach (var field in configurationObject.GetType().GetFields())
+            foreach (var field in configurationObject.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
             {
                 var fieldAttribute = Utils.ExtractFieldAttribute(field);
 
