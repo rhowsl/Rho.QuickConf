@@ -66,8 +66,8 @@ namespace Whatchamacallit
     {
         static void Main(string[] args)
         {
-            Whatchamacallit databaseConfig = new Whatchamacallit();
-            ConfigurationReader.DeserializeInto(databaseConfig, File.ReadAllLines("whatchamacallit.conf"));
+            DatabaseConfig databaseConfig = new DatabaseConfig();
+            ConfigurationReader.DeserializeInto(databaseConfig, File.ReadAllLines("databaseconfig.conf"));
 
             // you know what to do with these lmao            
         }
