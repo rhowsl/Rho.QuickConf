@@ -73,6 +73,7 @@ namespace Rho.QuickConf
             }
 
             if (output[0] == "[]") output.RemoveAt(0);
+            output.RemoveAt(output.Count - 1);
 
             return output.ToArray();
         }

@@ -62,19 +62,31 @@ namespace Rho.QuickConf
                 throw new InvalidOperationException("The given class is not a configuration object!");
 
             Dictionary<string, Dictionary<string, object>> groupsValuesPairs = new Dictionary<string, Dictionary<string, object>>();
-
-            foreach (var field in Utils.GetAllConfigurationFields(obj))
+            Action<MemberInfo, ConfigurationFieldAttribute> AddMember = (MemberInfo m, ConfigurationFieldAttribute a) =>
             {
-                var attribute = Utils.ExtractMemberAttribute(field);
+                switch (m.MemberType)
+                {
+                    case MemberTypes.Field:
+                        groupsValuesPairs[a.Group].Add(a.Name, (m as FieldInfo).GetValue(obj));
+                        break;
+                    case MemberTypes.Property:
+                        groupsValuesPairs[a.Group].Add(a.Name, (m as PropertyInfo).GetValue(obj));
+                        break;
+                }
+            };
+
+            foreach (var member in Utils.GetAllConfigurationMembers(obj))
+            {
+                var attribute = Utils.ExtractMemberAttribute(member);
 
                 if (!groupsValuesPairs.ContainsKey(attribute.Group))
-                {
+                {                    
                     groupsValuesPairs.Add(attribute.Group, new Dictionary<string, object>());
-                    groupsValuesPairs[attribute.Group].Add(attribute.Name, field.GetValue(obj));
+                    AddMember(member, attribute);
                 }
                 else
                 {
-                    groupsValuesPairs[attribute.Group].Add(attribute.Name, field.GetValue(obj));
+                    AddMember(member, attribute);
                 }
             }
 

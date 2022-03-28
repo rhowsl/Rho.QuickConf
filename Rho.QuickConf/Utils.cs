@@ -9,8 +9,9 @@ namespace Rho.QuickConf
         public static bool IsSerialiable(object obj) 
             => !(obj.GetType().GetCustomAttribute<SerializableAttribute>() is null);
 
-        public static FieldInfo[] GetAllConfigurationFields(object obj) =>
-            obj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(f => !(f.GetCustomAttribute<ConfigurationFieldAttribute>() is null)).ToArray();
+        public static MemberInfo[] GetAllConfigurationMembers(object obj) =>
+            obj.GetType().GetMembers(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                .Where(f => !(f.GetCustomAttribute<ConfigurationFieldAttribute>() is null) && (f.MemberType == MemberTypes.Property || f.MemberType == MemberTypes.Field)).ToArray();
 
         public static bool IsConfigurationClass(object configurationObject)
             => !(configurationObject.GetType().GetCustomAttribute(typeof(ConfigurationFileAttribute)) is null);
