@@ -11,7 +11,7 @@ namespace Rho.QuickConf.Tests
         [ConfigurationField("", "Value2")]
         string v2;
         [ConfigurationField("", "Value3")]
-        string v3;
+        readonly string v3;
 
         [ConfigurationField("Controls", "ButtonA")]
         string bt_a;

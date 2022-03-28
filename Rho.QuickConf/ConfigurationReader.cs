@@ -34,16 +34,13 @@ namespace Rho.QuickConf
                     switch (member.MemberType)
                     {
                         case MemberTypes.Field:
-                            if ((member as FieldInfo).IsInitOnly)
-                                throw new MemberAccessException($"Field {(member as FieldInfo).Name} is read-only.");
-
                             value = config[memberCfgAttribute.Group][memberCfgAttribute.Name];
                             (member as FieldInfo).SetValue(configurationObject, value);
 
                             break;
                         case MemberTypes.Property:
                             value = config[memberCfgAttribute.Group][memberCfgAttribute.Name];
-                            (member as FieldInfo).SetValue(configurationObject, value);
+                            (member as PropertyInfo).SetValue(configurationObject, value);
 
                             break;
                         default:
