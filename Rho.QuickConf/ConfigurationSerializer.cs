@@ -14,8 +14,10 @@ namespace Rho.QuickConf
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="data">ini data (multi-line string)</param>
-        public void Deserialize(T obj, string[] data)
+        public T Deserialize(string[] data)
         {
+            T obj = Activator.CreateInstance<T>();
+
             if (!Utils.IsConfigurationClass(obj))
                 throw new InvalidOperationException("The given class is not a configuration object!");
 
@@ -51,6 +53,8 @@ namespace Rho.QuickConf
                     }
                 }
             }
+
+            return obj;
         }
 
         public string[] Serialize(T obj)

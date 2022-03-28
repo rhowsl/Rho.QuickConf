@@ -2,8 +2,7 @@
 
 namespace Rho.QuickConf.Tests
 {
-    [ConfigurationFile]
-    [Serializable]
+    [ConfigurationFile, Serializable]
     public class Configuration
     {
         [ConfigurationField("", "Value1")]
@@ -40,7 +39,7 @@ namespace Rho.QuickConf.Tests
         public string MaxFramerate => max_fps;
     }
 
-    [ConfigurationFile]
+    [ConfigurationFile, Serializable]
     public class Configuration2
     {
         [ConfigurationField(Name = "Value1")]
