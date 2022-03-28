@@ -7,14 +7,17 @@ namespace Rho.QuickConf.Tests
     {
         static void Main(string[] args)
         {
-            Configuration t = new Configuration();
-            ConfigurationReader.DeserializeInto(t, File.ReadAllLines("Test.conf"));
+            ConfigurationSerializer<Configuration> ser = new ConfigurationSerializer<Configuration>();
+            ConfigurationSerializer<Configuration2> ser2 = new ConfigurationSerializer<Configuration2>();
 
-            var w = ConfigurationWriter.SerializeFrom(t);
+            Configuration t = new Configuration();
+            ser.Deserialize(t, File.ReadAllLines("Test.conf"));
+
+            var w = ser.Serialize(t);
             foreach (var line in w) Console.WriteLine(line);
 
             Configuration2 t2 = new Configuration2();
-            ConfigurationReader.DeserializeInto(t2, File.ReadAllLines("Test.conf"));
+            ser2.Deserialize(t2, File.ReadAllLines("Test.conf"));
 
             Console.WriteLine();
         }
