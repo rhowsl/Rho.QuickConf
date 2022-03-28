@@ -15,7 +15,7 @@ namespace Rho.QuickConf
         public static bool IsConfigurationClass(object configurationObject)
             => !(configurationObject.GetType().GetCustomAttribute(typeof(ConfigurationFileAttribute)) is null);
 
-        public static ConfigurationFieldAttribute ExtractFieldAttribute(FieldInfo fieldMember)
+        public static ConfigurationFieldAttribute ExtractMemberAttribute(MemberInfo fieldMember)
         {
             var attribute = fieldMember.GetCustomAttribute(typeof(ConfigurationFieldAttribute));
             if (!(attribute is null))

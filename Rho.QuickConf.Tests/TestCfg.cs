@@ -39,4 +39,18 @@ namespace Rho.QuickConf.Tests
         public string LimitFramerate => limit_fps;
         public string MaxFramerate => max_fps;
     }
+
+    [ConfigurationFile]
+    public class Configuration2
+    {
+        [ConfigurationField(Name = "Value1")]
+        public string Value1 { get; private set; }
+
+        [ConfigurationField(Name = "Value2")]
+        public string Value2 { get; set; }
+
+        [ConfigurationField(Name = "Value3")]
+        public string Value3 { get; protected set; }
+
+    }
 }

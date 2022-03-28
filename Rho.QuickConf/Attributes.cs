@@ -9,7 +9,7 @@ namespace Rho.QuickConf
     {
     }
 
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public sealed class ConfigurationFieldAttribute : Attribute
     {
         public string Group { get; set; }

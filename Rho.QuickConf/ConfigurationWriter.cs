@@ -23,7 +23,7 @@ namespace Rho.QuickConf
 
             foreach (var field in Utils.GetAllConfigurationFields(configurationObject))
             {
-                var attribute = Utils.ExtractFieldAttribute(field);
+                var attribute = Utils.ExtractMemberAttribute(field);
 
                 if (!groupsValuesPairs.ContainsKey(attribute.Group))
                 {

@@ -20,18 +20,33 @@ namespace Rho.QuickConf
             // parse the file
             var config = Parser.ReadRawConfigData(data);
 
-            List<ConfigurationFieldAttribute> fields = new List<ConfigurationFieldAttribute>();
-            foreach (var field in configurationObject.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+            var fields = configurationObject.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            var properties = configurationObject.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (var field in fields)
             {
-                var fieldAttribute = Utils.ExtractFieldAttribute(field);
+                var fieldAttribute = Utils.ExtractMemberAttribute(field);
 
                 if (field.IsInitOnly)
-                    throw new MemberAccessException($"Field {fieldAttribute.Name} is read-only.");
+                    throw new MemberAccessException($"Field {field.Name} is read-only.");
 
                 if (!(fieldAttribute is null))
                 {
                     object value = config[fieldAttribute.Group][fieldAttribute.Name];
                     field.SetValue(configurationObject, value);
+                }
+            }
+
+            foreach (var property in properties)
+            {
+                var propertyAttribute = Utils.ExtractMemberAttribute(property);
+
+                // HACK: this is being done without accessibility checks
+
+                if (!(propertyAttribute is null))
+                {
+                    object value = config[propertyAttribute.Group][propertyAttribute.Name];
+                    property.SetValue(configurationObject, value);
                 }
             }
         }

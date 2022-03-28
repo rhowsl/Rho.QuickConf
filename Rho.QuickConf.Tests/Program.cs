@@ -11,7 +11,12 @@ namespace Rho.QuickConf.Tests
             ConfigurationReader.DeserializeInto(t, File.ReadAllLines("Test.conf"));
 
             var w = ConfigurationWriter.SerializeFrom(t);
-            foreach (var line in w) Console.WriteLine(line);            
+            foreach (var line in w) Console.WriteLine(line);
+
+            Configuration2 t2 = new Configuration2();
+            ConfigurationReader.DeserializeInto(t2, File.ReadAllLines("Test.conf"));
+
+            Console.WriteLine();
         }
     }
 }
