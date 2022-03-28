@@ -38,7 +38,6 @@ namespace Rho.QuickConf
                     continue;
                 else if (IsGroup(line))
                 {
-                    // this is stupid and unfunny
                     currentGroup = $"{line.Replace("[", "").Replace("]", "").RemoveTrailing()}";
 
                     config.Add(currentGroup, new Dictionary<string, object>());

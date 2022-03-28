@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -20,33 +21,36 @@ namespace Rho.QuickConf
             // parse the file
             var config = Parser.ReadRawConfigData(data);
 
-            var fields = configurationObject.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-            var properties = configurationObject.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            var members = configurationObject.GetType().GetMembers(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                .Where(m => m.GetCustomAttribute(typeof(ConfigurationFieldAttribute)) != null);
 
-            foreach (var field in fields)
+            foreach (var member in members)
             {
-                var fieldAttribute = Utils.ExtractMemberAttribute(field);
+                var memberCfgAttribute = Utils.ExtractMemberAttribute(member);
+                object value = null;
 
-                if (field.IsInitOnly)
-                    throw new MemberAccessException($"Field {field.Name} is read-only.");
-
-                if (!(fieldAttribute is null))
+                if (memberCfgAttribute != null)
                 {
-                    object value = config[fieldAttribute.Group][fieldAttribute.Name];
-                    field.SetValue(configurationObject, value);
-                }
-            }
+                    switch (member.MemberType)
+                    {
+                        case MemberTypes.Field:
+                            if ((member as FieldInfo).IsInitOnly)
+                                throw new MemberAccessException($"Field {(member as FieldInfo).Name} is read-only.");
 
-            foreach (var property in properties)
-            {
-                var propertyAttribute = Utils.ExtractMemberAttribute(property);
+                            value = config[memberCfgAttribute.Group][memberCfgAttribute.Name];
+                            (member as FieldInfo).SetValue(configurationObject, value);
 
-                // HACK: this is being done without accessibility checks
+                            break;
+                        case MemberTypes.Property:
+                            value = config[memberCfgAttribute.Group][memberCfgAttribute.Name];
+                            (member as FieldInfo).SetValue(configurationObject, value);
 
-                if (!(propertyAttribute is null))
-                {
-                    object value = config[propertyAttribute.Group][propertyAttribute.Name];
-                    property.SetValue(configurationObject, value);
+                            break;
+                        default:
+                            value = null;
+
+                            break;
+                    }
                 }
             }
         }
