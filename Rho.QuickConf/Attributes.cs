@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Rho.QuickConf
 {
+    /// <summary>
+    /// Marks a class as a configuration file. Every field is a string, basically.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class ConfigurationFileAttribute : Attribute
     {
@@ -24,6 +27,9 @@ namespace Rho.QuickConf
         {
             Group = group;
             Name = name;
+
+            if (Name == string.Empty)
+                throw new ArgumentNullException("Name cannot be empty.");
         }
     }
 }

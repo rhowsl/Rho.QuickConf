@@ -6,7 +6,10 @@ using System.Text;
 
 namespace Rho.QuickConf
 {
-    // TODO: Make Serialize return an object.
+    /// <summary>
+    /// Takes care of (de)serialization of configuration files.
+    /// </summary>
+    /// <typeparam name="T">thiss</typeparam>
     public class ConfigurationSerializer<T>
     {
         /// <summary>

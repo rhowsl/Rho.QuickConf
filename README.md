@@ -1,81 +1,52 @@
-### QuickConf
+# QuickConf
 
-This is an INI reader. That's about everything you need to know, except for how to use it
+C# ini reader/writer, sorta. works with serialization, solely. I think it's a really neat and easy to apply concept.
 
 ## Usage
 
-Write a class like this
+apply to a class the attribute ``ConfigurationFile``, and ``Serializeable`` if you plan to write the class back to a config file
+then, apply the ``ConfigurationField`` attribute to the members you wish to have stuff from the configuration file put in there. they can be assigned a group and a name, but the name must not be blank
 
-```c#
-[ConfigurationFile]	// needed 
-[Serializable]		// needed IF you're going to serialize it
-class MySuperHorribleConfigurationClass
-{
-	// this attribute can handle 2 arguments
-	// it's documented you should probably read it
-	[ConfigurationField("", "MyAwesomeField")]
-	private string _myAwesomeField;
+these attributes can be used on private members. they'll work fine
 
-	// QuickConf only suports fields so you may want to do this
-	public string MyAwesomeField => _myAwesomeField;
-}
-```
-
-Having a class like this allows you to use the two main components of this library:
-- **`ConfigurationReader`**: fills fields marked with the `ConfigurationField` attribute, in classes marked with `ConfigurationFile`.
-- **`ConfigurationWriter`**: allows you to write them back into multiline strings, but requires the `Serializable` attribute.
-
-## A Better Example
+what follows is an example implementation, in C#
 
 ```ini
-DatabaseBackend=sqlite
+# myconfigfile.conf
+Value1=a
 
-[Sqlite]
-DatabaseFilename=alcoholic_beverage.db
-UsePassword=false
-Password=
+[Group1]
+Value2=b
 ```
 
 ```c#
-namespace Whatchamacallit
+using System.IO;
+
+[ConfigurationFile, Serializeable] 
+class MyConfigurationFile
 {
-    [ConfigurationFile]	// needed 
-    class DatabaseConfig
-    {	    
-        [ConfigurationField("", "DatabaseBackend")]
-        private string db_backend;
+    [ConfigurationField(Name = "Value1")]
+    public string Value1 { get; internal set; }
 
-        [ConfigurationField("Sqlite", "DatabaseFilename")]
-        private string db_filename;
+    [ConfigurationField(Group = "Group1", Name = "Value2")]
+    public string Value2 { get; set; }
+}
 
-        [ConfigurationField("Sqlite", "UsePassword")]
-        private string db_use_pwd;
-
-        [ConfigurationField("Sqlite", "Password")]
-        private string db_password;
-
-        public string DatabaseBackend => db_backend;
-
-        public string SqliteDatabaseFilename => db_filename;
-
-        public bool SqliteUsePassword => db_use_pwd.StartsWith("true") ? true : false;
-
-        public string SqlitePassword => db_pwd;
-    }
-    class Program
+class Program
+{
+    static void Main()
     {
-        static void Main(string[] args)
-        {
-            DatabaseConfig databaseConfig = new DatabaseConfig();
-            ConfigurationReader.DeserializeInto(databaseConfig, File.ReadAllLines("databaseconfig.conf"));
+        // serializer.
+        ConfigurationSerializer<MyConfigurationFile> serializer = new();
+        MyConfigurationFile file = serializer.Deserialize(File.ReadAllLines("myconfigfile.conf"));
 
-            // you know what to do with these lmao            
-        }
+        Console.WriteLine($"Value 1 is {file.Value1}.");
+        Console.WriteLine($"Value 2 is {file.Value2}.");
     }
 }
 ```
 
 ## Todo
 
-- Type conversion
-- Compliance?
+- Ability to mark certain fields as required.
+- Ability to preserve the original file data (comments, etc.).
